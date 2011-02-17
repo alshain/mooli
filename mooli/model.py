@@ -19,11 +19,31 @@ class LanguageName(elixir.Entity):
     text = elixir.Field(elixir.Unicode(20), unique=True)
 
 
-class Provider(elixir.Entity):
+class ProviderUrl(elixir.Entity):
+    provider = elixir.ManyToOne('Provider')
     url = elixir.Field(elixir.String(20), required=True, unique=True)
 
-    def __init__(self, url):
+    def __init__(self, provider, url):
+        self.provider = provider
         self.url = url
+
+    def __str__(self):
+        return self.url
+
+
+class Provider(elixir.Entity):
+    urls = elixir.OneToMany('ProviderUrl')
+
+    def __init__(self, urls):
+        if isinstance(urls, str):
+            urls = [urls]
+
+        for url in urls:
+            self.add_url(url)
+
+    def add_url(self, url):
+        """Register a new URL for the provider."""
+        self.urls.append(ProviderUrl(self, url))
 
 
 class ExternalMovieId(elixir.Entity):
@@ -41,6 +61,7 @@ class MovieTitle(elixir.Entity):
     def __init__(self, title, movie=None):
         self.title = unicode(title)
         self.movie = movie
+
 
 class Movie(elixir.Entity):
     titles = elixir.OneToMany('MovieTitle', lazy=False)
