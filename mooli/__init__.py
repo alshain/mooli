@@ -13,5 +13,7 @@ def open(path):
     engine = create_engine("sqlite:///%s" % path)
     return connect(engine)
 
+
 def connect(engine):
+    """Connect library to an open database."""
     return Library(engine)
