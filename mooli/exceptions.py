@@ -1,0 +1,2 @@
+class MooliError(Exception):
+    pass
