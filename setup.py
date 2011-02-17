@@ -9,6 +9,7 @@ setup(
     packages=['mooli'],
     requires=[
         'elixir',
+        'imdbpy',
         'nose',
         'sqlalchemy',
     ]
