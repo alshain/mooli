@@ -4,13 +4,12 @@ from sqlalchemy import create_engine
 from mooli.library import Library
 
 
-class MooliError(Exception):
-    pass
-
-
-def open(path):
+def open(path=None):
     """Open a mooli library at said path."""
-    engine = create_engine("sqlite:///%s" % path)
+    if path:
+        engine = create_engine("sqlite:///%s" % path)
+    else:
+        engine = create_engine("sqlite:///:memory:")
     return connect(engine)
 
 
