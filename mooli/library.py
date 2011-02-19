@@ -129,6 +129,13 @@ class Searcher(object):
         raise NotImplementedError
 
 
+class Search(object):
+    """Represents an individual search."""
+    def guess(self):
+        """Try to determine which movie one was looking for."""
+        raise NotImplementedError
+
+
 class SearchResult(object):
     """Represents a movie result."""
     def __init__(self, title, year):
