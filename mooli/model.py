@@ -74,8 +74,11 @@ class Movie(elixir.Entity):
     rating = elixir.OneToOne('Rating')
 
     def __init__(self, title, year):
-        title = unicode(title)
-        self.titles.append(MovieTitle(title))
+        if isinstance(title, MovieTitle):
+            self.titles.append(title)
+        else:
+            self.titles.append(MovieTitle(title))
+        self.year = year
 
 
 class Character(elixir.Entity):
