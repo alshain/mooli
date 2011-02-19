@@ -33,7 +33,6 @@ class Library(object):
         self.scrape = Scraper(self)
         self.providers = Providers(self._session)
 
-
     def update(obj):
         """Write changes of an object back to the database."""
         raise NotImplementedError("Cannot update objects yet.")
@@ -63,7 +62,6 @@ class Providers(object):
         """Register a new movie provider."""
         if isinstance(urls, str):
             urls = [urls]
-
 
     def by_url(self, url, autocreate=False):
         """Return by URL.
