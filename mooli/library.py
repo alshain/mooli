@@ -6,9 +6,11 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 
 
 from mooli import model as m
+from mooli import providers
+from mooli import _util as util
+from mooli.errors import ProviderError
 from mooli.errors import ProviderNotFound
 from mooli.errors import MultipleProvidersFound
-from mooli import _util as util
 
 
 class Library(object):
