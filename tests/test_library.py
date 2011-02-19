@@ -3,13 +3,9 @@ from minimock import Mock
 
 
 import mooli
+from mooli import model as m
 from mooli.library import MultipleProvidersFound
 
-
-def test_scrape():
-    model.metadata.bind = None
-    library = Library()
-    library.scrape("The Matrix", 1999)
 
 def test_matrix():
     print "Instantiatig Library."
@@ -21,25 +17,18 @@ def test_matrix():
     eq_(matrix.year, 1999)
 
 
-def test_providers():
+def test_provider_by_url():
     lib = mooli.open()
-    mock_imdb = Mock("imdb")
-    mock_imdb.handles = Mock("handles", returns=True)
-    mock_tmdb = Mock("tmdb")
-    mock_tmdb.handles = Mock("handles", returns=False)
-    lib.providers.register(mock_imdb)
-    ok_(lib.providers["imdb.com"] is mock_imdb, "Should be mock_imdb.")
+    in_db, imdb = lib.providers["imdb.com"]
+    ok_(isinstance(in_db, m.Provider), "Should be Provider model.")
+    ok_(isinstance(imdb, mooli.providers.IMDB), "Should be Provider model.")
+    eq_((in_db, imdb), lib.providers["imdb"], "Multiple urls don't work.")
 
-@raises(MultipleProvidersFound)
-def test_provider_url_clash():
+def test_provider_identify_with_db():
     lib = mooli.open()
-    mock_imdb = Mock("imdb")
-    mock_tmdb = Mock("tmdb")
-    # Let both providers handle all URLs.
-    mock_imdb.handles = Mock("imdb.handles", returns=True)
-    # Register both providers
-    mock_tmdb.handles = Mock("tmdb.handles", returns=True)
-    lib.providers.register(mock_imdb)
-    lib.providers.register(mock_tmdb)
-    # This has throw an exception.
-    fails = lib.providers["imdb.com"]
+    in_db, imdb = lib.providers["imdb.com"]
+    # Pretend we have no registerd providers, but one in the database
+    # We do that by clearing our registry which is in by_url
+    lib.providers.by_url = {}
+    lib.providers.register(imdb)
+    eq_((in_db, imdb),  lib.providers["imdb.com"])
