@@ -103,7 +103,7 @@ class Scraper(object):
         self.providers = []
 
 
-class Search(object):
+class Searcher(object):
     """Searches the individual providers for a movie."""
     def __init__(self, library):
         self.library = library
