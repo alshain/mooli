@@ -48,7 +48,7 @@ class RawAccess(object):
 class Providers(object):
     def __init__(self, session):
         self._session = session
-        self.providers = set()
+        self.by_url = {}
 
     def __call__(self):
         """Return all providers.
@@ -59,32 +59,6 @@ class Providers(object):
 
         """
         return self._session.query(m.Provider).all()
-
-    def add(self, urls):
-        """Register a new movie provider."""
-        if isinstance(urls, str):
-            urls = [urls]
-
-    def by_url(self, url, autocreate=False):
-        """Return by URL.
-
-        >>> import mooli
-        >>> l = mooli.open(None)
-        >>> l.providers.by_url("imdb.com")  #doctest: +IGNORE_EXCEPTION_DETAIL
-        Traceback (most recent call last):
-        ProviderNotFound: No provider handles that url.
-
-        """
-        # q = self.session.query(model.ProviderUrl)
-        # return q.filter(model.ProviderUrl.url == url).one().provider
-        filtered = filter(lambda p: p.handles(url), self.providers)
-        if len(filtered) == 1:
-            return filtered[0]
-        elif len(filtered) > 1:
-            # Unpredictable behaviour would occur.
-            raise MultipleProvidersFound("Multiple providers found.")
-        else:
-            raise ProviderNotFound("No provider handles that url.")
 
     def search(self, title, year):
         """Search for a movie by year and title."""
