@@ -124,10 +124,6 @@ class Searcher(object):
         for provider in self.library.providers:
             pass
 
-    def guess(self):
-        """Try to determine which movie one was looking for."""
-        raise NotImplementedError
-
     def scrape(self):
         """Fetch information online for the current search."""
         raise NotImplementedError
