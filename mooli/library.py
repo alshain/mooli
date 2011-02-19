@@ -18,7 +18,7 @@ class Library(object):
                                                     bind=engine))
         elixir.setup_all()
         elixir.create_all(engine)
-        self.search = Search(self)
+        self.search = Searcher(self)
         self.scrape = Scraper(self)
         self.providers = Providers(self._session)
 
