@@ -31,6 +31,10 @@ class Library(object):
         self._session.add(obj)
         self._session.commit()
 
+    def query(self, *args, **kwargs):
+        """Wrapper for the sessions's query."""
+        return self._session.query(*args, **kwargs)
+
 
 class Providers(object):
     def __init__(self, session):
