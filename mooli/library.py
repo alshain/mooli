@@ -66,7 +66,55 @@ class Providers(object):
 
     def register(self, provider):
         """Register a new provider with the collection."""
-        self.providers.add(provider)
+
+        # Gracefully abort if provider is already registered.
+        # by_urls: url: (in_db, provider)
+        if any(provider == p for _, p in self.by_url.itervalues()):
+            return
+
+        # Check whether we already have a provider that acts upon one of the
+        # urls that I'm trying to register.
+        collisions = set(self.by_url.keys()).intersection(set(provider.urls))
+        if collisions:
+            raise ProviderError("Multiple url handlers found: %s" %
+                    collisions)
+
+        # All systems go.
+
+        # Need to check whether something what's in the database that the
+        # provider can handle.
+        ps_in_db = self._session.query(m.Provider).all()
+        found_p_in_db = None
+
+        for p_in_db in ps_in_db:
+            urls = [url.url for url in p_in_db.urls]
+            # I don't think we should ever get here.
+            assert not found_p_in_db, "Multiple providers registered?"
+            if any(provider.handles(url) for url in urls):
+                # URLs are variations for one logical provider.
+                found_p_in_db = p_in_db
+
+        if found_p_in_db:
+            # Maybe we changed some supported URLs. Let's rewrite them all.
+            # Remove old links from the database first.
+            for url in p_in_db.urls:
+                self._session.delete(url)
+            # Flush! so we don't get errors because of non-unique urls
+            self._session.flush()
+            # And add new ones.
+            p_in_db.urls = [m.ProviderUrl(p_in_db, url)
+                            for url in provider.urls]
+        else:
+            # Didn't find the provider.
+            # Let's register the provider in the database then.
+            p_in_db = m.Provider(provider.urls)
+            self._session.add(p_in_db)
+        # Write all changes to db
+        self._session.flush()
+
+        # Register in by_urls
+        for url in provider.urls:
+            self.by_url[url] = (p_in_db, provider)
 
     def __getitem__(self, url):
         return self.by_url(url)
