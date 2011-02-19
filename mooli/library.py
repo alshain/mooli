@@ -21,10 +21,13 @@ class Library(object):
         self.search = Searcher(self)
         self.scrape = Scraper(self)
         self.providers = Providers(self._session)
+        self.raw = RawAccess(self._session)
+        self.query = self.raw.query
 
-    def update(obj):
-        """Write changes of an object back to the database."""
-        raise NotImplementedError("Cannot update objects yet.")
+class RawAccess(object):
+    """Raw access to the underlying database."""
+    def __init__(self, session):
+        self.session = session
 
     def add(self, obj):
         """Add a new object to the database."""
@@ -34,6 +37,10 @@ class Library(object):
     def query(self, *args, **kwargs):
         """Wrapper for the sessions's query."""
         return self._session.query(*args, **kwargs)
+
+    def update(obj):
+        """Write changes of an object back to the database."""
+        raise NotImplementedError("Cannot update objects yet.")
 
 
 class Providers(object):
