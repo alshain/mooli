@@ -7,6 +7,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 
 from mooli.exceptions import MooliError
 from mooli import model as m
+from mooli import _util as util
 
 
 class ProviderError(MooliError):
