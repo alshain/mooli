@@ -10,18 +10,6 @@ from mooli import model as m
 from mooli import _util as util
 
 
-class ProviderError(MooliError):
-    pass
-
-
-class ProviderNotFound(ProviderError):
-    pass
-
-
-class MultipleProvidersFound(ProviderError):
-    pass
-
-
 class Library(object):
     """Movie database."""
     def __init__(self, engine):
