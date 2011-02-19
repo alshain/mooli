@@ -26,6 +26,10 @@ class Library(object):
         self.raw = RawAccess(self._session)
         self.query = self.raw.query
 
+        # Register providers
+        self.providers.register(providers.IMDB())
+
+
 class RawAccess(object):
     """Raw access to the underlying database."""
     def __init__(self, session):
