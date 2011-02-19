@@ -84,12 +84,16 @@ class Providers(object):
         else:
             raise ProviderNotFound("No provider handles that url.")
 
-    def __getitem__(self, url):
-        return self.by_url(url)
+    def search(self, title, year):
+        """Search for a movie by year and title."""
+        raise NotImplementedError
 
     def register(self, provider):
         """Register a new provider with the collection."""
         self.providers.add(provider)
+
+    def __getitem__(self, url):
+        return self.by_url(url)
 
     def __repr__(self):
         reps = [repr(p) for p in self.providers] or ["<None>"]
