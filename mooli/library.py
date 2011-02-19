@@ -117,10 +117,10 @@ class Providers(object):
             self.by_url[url] = (p_in_db, provider)
 
     def __getitem__(self, url):
-        return self.by_url(url)
+        return self.by_url[url]
 
     def __repr__(self):
-        reps = [repr(p) for p in self.providers] or ["<None>"]
+        reps = [repr(p) for p in self.by_url.iteritems()] or ["<None>"]
         return "<Providers: %s>" % ", ".join(reps)
 
 
