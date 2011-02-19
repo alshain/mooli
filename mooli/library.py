@@ -52,7 +52,7 @@ class Providers(object):
         """Return all providers.
         >>> import mooli
         >>> l = mooli.open(None)
-        >>> l.providers  #doctest:+ELLIPSIS
+        >>> l.providers
         <Providers: <None>>
 
         """
