@@ -5,8 +5,9 @@ import elixir
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 
-from mooli.errors import MooliError
 from mooli import model as m
+from mooli.errors import ProviderNotFound
+from mooli.errors import MultipleProvidersFound
 from mooli import _util as util
 
 
