@@ -170,7 +170,7 @@ class Searcher(object):
 
     def scrape(self):
         """Fetch information online for the current search."""
-        raise NotImplementedError
+        raise NotImplementedError("Providers.scrape is not implemented")
 
 
 class Search(object):
@@ -182,7 +182,7 @@ class Search(object):
 
     def guess(self):
         """Try to determine which movie one was looking for."""
-        raise NotImplementedError
+        raise NotImplementedError("Search.guess is not implemented.")
 
     def __len__(self):
         """Number of results."""
