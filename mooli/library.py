@@ -53,6 +53,7 @@ class Providers(object):
     def __init__(self, session):
         self._session = session
         self.by_url = {}
+        self.providers = set()
 
     def __call__(self):
         """Return all providers.
@@ -116,9 +117,10 @@ class Providers(object):
         # Write all changes to db
         self._session.flush()
 
-        # Register in by_urls
+        # And register it
         for url in provider.urls:
             self.by_url[url] = (p_in_db, provider)
+        self.providers.add(provider)
 
     def __getitem__(self, url):
         return self.by_url[url]
