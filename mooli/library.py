@@ -155,14 +155,14 @@ class Searcher(object):
             q = q.filter(m.MovieTitle.title.like(word))
         if year:
             q = q.filter(m.Movie.year == year)
-        return LocalSearch(q)
+        return LocalSearch(title, year, q)
 
     def providers(self, title, year):
         """Search through the different providers."""
         results = []
         for _, provider in self.library.providers:
             results.extend(provider.search(title, year))
-        return Search(results)
+        return RemoteSearch(title, year, results)
 
     def by_identifier(self, provider, identifier):
         for provider in self.library.providers:
@@ -183,6 +183,16 @@ class Search(object):
     def guess(self):
         """Try to determine which movie one was looking for."""
         raise NotImplementedError
+
+
+class LocalSearch(Search):
+    """Represents an individual, local search."""
+    pass
+
+
+class RemoteSearch(Search):
+    """Represents an individual, remote search."""
+    pass
 
 
 class SearchResult(object):
