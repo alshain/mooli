@@ -98,12 +98,12 @@ class Providers(object):
         if found_p_in_db:
             # Maybe we changed some supported URLs. Let's rewrite them all.
             # Remove old links from the database first.
-            for url in p_in_db.urls:
+            for url in found_p_in_db.urls:
                 self._session.delete(url)
             # Flush! so we don't get errors because of non-unique urls
             self._session.flush()
             # And add new ones.
-            p_in_db.urls = [m.ProviderUrl(p_in_db, url)
+            found_p_in_db.urls = [m.ProviderUrl(found_p_in_db, url)
                             for url in provider.urls]
         else:
             # Didn't find the provider.
