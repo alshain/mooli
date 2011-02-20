@@ -32,3 +32,14 @@ def test_provider_identify_with_db():
     lib.providers.by_url = {}
     lib.providers.register(imdb)
     eq_((in_db, imdb),  lib.providers["imdb.com"])
+
+def test_search():
+    lib = mooli.open()
+    matrix = mooli.model.Movie("The Matrix", 1999)
+    lib._session.add(matrix)
+    lib._session.flush()
+    ok_(len(lib.search("The Matrix")) == 1, "Expected one result.")
+    ok_(len(lib.search("The Matrix", 1999)) == 1, "Expected one result.")
+    ok_(len(lib.search("The Matrix", 2000)) == 0, "Exoected no results.")
+    ok_(len(lib.search("Matrix")) == 1, "Partial title failed.")
+    ok_(len(lib.search("rix")) == 1, "Partial word failed.")
