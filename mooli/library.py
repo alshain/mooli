@@ -184,6 +184,14 @@ class Search(object):
         """Try to determine which movie one was looking for."""
         raise NotImplementedError
 
+    def __len__(self):
+        """Number of results."""
+        return len(self.results)
+
+    def __iter__(self):
+        """Iterate results."""
+        return iter(self.results)
+
 
 class LocalSearch(Search):
     """Represents an individual, local search."""
