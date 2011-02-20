@@ -164,7 +164,15 @@ class Searcher(object):
             q = q.filter(m.MovieTitle.title.like(word))
         if year:
             q = q.filter(m.Movie.year == year)
-        return q.all()
+        search = Search()
+        return Search(q)
+
+    def providers(self, title, year):
+        """Search through the different providers."""
+        results = []
+        for provider in self.library.providers:
+            results.extend(provider.search(title, year))
+        return Search(results)
 
     def by_identifier(self, provider, identifier):
         for provider in self.library.providers:
