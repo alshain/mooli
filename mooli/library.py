@@ -55,16 +55,6 @@ class Providers(object):
         self.by_url = {}
         self.providers = set()
 
-    def __call__(self):
-        """Return all providers.
-        >>> import mooli
-        >>> l = mooli.open(None)
-        >>> l.providers
-        <Providers: <None>>
-
-        """
-        return self._session.query(m.Provider).all()
-
     def register(self, provider):
         """Register a new provider with the collection."""
 
