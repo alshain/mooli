@@ -49,3 +49,8 @@ def test_search():
 def test_imdb():
     imdb = IMDB()
     imdb.search("The Matrix", 1999)
+
+def test_provider_search():
+    lib = mooli.open()
+    matrix_search = lib.search.providers("The Matrix", 1999)
+    matrix_search.guess()
