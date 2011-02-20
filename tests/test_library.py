@@ -29,7 +29,8 @@ def test_provider_identify_with_db():
     lib = mooli.open()
     in_db, imdb = lib.providers["imdb.com"]
     # Pretend we have no registerd providers, but one in the database
-    # We do that by clearing our registry which is in by_url
+    # We do that by clearing our registry which is in by_url and providers
+    lib.providers.providers = set()
     lib.providers.by_url = {}
     lib.providers.register(imdb)
     eq_((in_db, imdb),  lib.providers["imdb.com"])
