@@ -150,9 +150,17 @@ class Searcher(object):
         """See __call__"""
         self(title, year, autoscrape)
 
-    def __call__(self, title, year, autoscrape=None):
+    def __call__(self, title, year=None, autoscrape=None):
         """Performs a search."""
-        # Split words
+        words = util.split_words(title)
+        q = self.library.raw.query(m.Movie).join(m.MovieTitle)
+        for word in words:
+            # Surround with wildcards
+            word = unicode("%%%s%%" % word)
+            q = q.filter(m.MovieTitle.title.like(word))
+        if year:
+            q = q.filter(m.Movie.year == year)
+        return q.all()
 
     def by_identifier(self, provider, identifier):
         for provider in self.library.providers:
