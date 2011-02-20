@@ -106,7 +106,7 @@ class Providers(object):
         # And register it
         for url in provider.urls:
             self.by_url[url] = (p_in_db, provider)
-        self.providers.add(provider)
+        self.providers.add((p_in_db, provider))
 
     def __len__(self):
         """Number of registered providers."""
@@ -148,19 +148,19 @@ class Searcher(object):
         """Performs a search."""
         words = util.split_words(title)
         q = self.library.raw.query(m.Movie).join(m.MovieTitle)
+        # Perform one LIKE for each word
         for word in words:
             # Surround with wildcards
             word = unicode("%%%s%%" % word)
             q = q.filter(m.MovieTitle.title.like(word))
         if year:
             q = q.filter(m.Movie.year == year)
-        search = Search()
-        return Search(q)
+        return LocalSearch(q)
 
     def providers(self, title, year):
         """Search through the different providers."""
         results = []
-        for provider in self.library.providers:
+        for _, provider in self.library.providers:
             results.extend(provider.search(title, year))
         return Search(results)
 
