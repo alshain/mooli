@@ -57,10 +57,13 @@ class MovieTitle(elixir.Entity):
     language = elixir.ManyToOne('Language')
     movie = elixir.ManyToOne('Movie')
     title = elixir.Field(elixir.UnicodeText)
+    description = elixir.Field(elixir.UnicodeText)
 
-    def __init__(self, title, movie=None):
+    def __init__(self, title, description=None, movie=None, lang=None):
         self.title = unicode(title)
         self.movie = movie
+        self.description = description
+        self.language = lang
 
 
 class Movie(elixir.Entity):
