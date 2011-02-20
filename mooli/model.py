@@ -77,6 +77,7 @@ class Movie(elixir.Entity):
         if isinstance(title, MovieTitle):
             self.titles.append(title)
         else:
+            title = unicode(title)
             self.titles.append(MovieTitle(title))
         self.year = year
 
