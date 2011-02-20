@@ -57,7 +57,7 @@ class IMDB(object):
 
         for aka in akas:
             aka, description = aka.split("::")
-            result["titles"].append((aka, description))
+            result["titles"].append((aka.strip(), description.strip()))
         return result
 
     def handles(self, url):
