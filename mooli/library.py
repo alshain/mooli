@@ -65,10 +65,6 @@ class Providers(object):
         """
         return self._session.query(m.Provider).all()
 
-    def search(self, title, year):
-        """Search for a movie by year and title."""
-        raise NotImplementedError
-
     def register(self, provider):
         """Register a new provider with the collection."""
 
