@@ -37,12 +37,12 @@ class RawAccess(object):
 
     def add(self, obj):
         """Add a new object to the database."""
-        self._session.add(obj)
-        self._session.commit()
+        self.session.add(obj)
+        self.session.commit()
 
     def query(self, *args, **kwargs):
         """Wrapper for the sessions's query."""
-        return self._session.query(*args, **kwargs)
+        return self.session.query(*args, **kwargs)
 
     def update(obj):
         """Write changes of an object back to the database."""
