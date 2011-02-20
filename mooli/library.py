@@ -74,7 +74,7 @@ class Providers(object):
 
         # Gracefully abort if provider is already registered.
         # by_urls: url: (in_db, provider)
-        if any(provider == p for _, p in self.by_url.itervalues()):
+        if provider in self.providers:
             return
 
         # Check whether we already have a provider that acts upon one of the
