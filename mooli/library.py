@@ -118,6 +118,14 @@ class Providers(object):
             self.by_url[url] = (p_in_db, provider)
         self.providers.add(provider)
 
+    def __len__(self):
+        """Number of registered providers."""
+        return len(self.providers)
+
+    def __iter__(self):
+        """Iterate individual providers."""
+        return iter(self.providers)
+
     def __getitem__(self, url):
         return self.by_url[url]
 
