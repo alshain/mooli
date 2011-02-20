@@ -42,7 +42,7 @@ def test_search():
     lib._session.flush()
     ok_(len(lib.search("The Matrix")) == 1, "Expected one result.")
     ok_(len(lib.search("The Matrix", 1999)) == 1, "Expected one result.")
-    ok_(len(lib.search("The Matrix", 2000)) == 0, "Exoected no results.")
+    ok_(len(lib.search("The Matrix", 2000)) == 0, "Wrong year. No results.")
     ok_(len(lib.search("Matrix")) == 1, "Partial title failed.")
     ok_(len(lib.search("rix")) == 1, "Partial word failed.")
 
