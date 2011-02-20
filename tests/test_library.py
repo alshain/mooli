@@ -5,6 +5,7 @@ from minimock import Mock
 import mooli
 from mooli import model as m
 from mooli.library import MultipleProvidersFound
+from mooli.providers import IMDB
 
 
 def test_matrix():
@@ -43,3 +44,7 @@ def test_search():
     ok_(len(lib.search("The Matrix", 2000)) == 0, "Exoected no results.")
     ok_(len(lib.search("Matrix")) == 1, "Partial title failed.")
     ok_(len(lib.search("rix")) == 1, "Partial word failed.")
+
+def test_imdb():
+    imdb = IMDB()
+    imdb.search("The Matrix", 1999)
